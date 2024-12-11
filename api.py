@@ -79,7 +79,7 @@ def borrar_alumno(id:int, sesion:Session=Depends(generador_sesion)):
     return {"alumno_borrado", "ok"}
 
 
-######## PRACTICA 22222 #####
+######################## PRACTICA PARTE 2 ########################
 
 @app.post("/alumnos")
 def guardar_alumno(alumno:esquemas.AlumnoBase,sesion:Session=Depends(generador_sesion)):

@@ -126,7 +126,7 @@ def borrar_calificacion_por_id(sesion:Session,id_calif:int):
     return respuesta
 
 
-####### PRACTICA 2 CONTINUACION
+######################## PRACTICA PARTE 2 ########################
 
 #Atiende las siguientes peticiones del tipo PUT y POST:
 
