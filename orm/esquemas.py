@@ -17,4 +17,3 @@ class CalificacionBase(BaseModel):
 class FotoBase(BaseModel):
     titulo:str
     descripcion:str
-    ruta:str

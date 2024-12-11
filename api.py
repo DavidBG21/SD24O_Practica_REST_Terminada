@@ -27,7 +27,7 @@ def alumno_por_id(id:int,sesion:Session=Depends(generador_sesion)):
     return repo.alumno_por_id(sesion, id)
 
 @app.get("/alumnos/{id}/calificaciones")
-def fotos_por_id_alum(id:int,sesion:Session=Depends(generador_sesion)):
+def calificacion_por_id_alum(id:int,sesion:Session=Depends(generador_sesion)):
     print("API consultando calificaciones del alumno ", id)
     return repo.calificaciones_por_id_alumno(sesion, id)
 
@@ -71,19 +71,19 @@ def borrar_fotos_alumno(id:int, sesion:Session=Depends(generador_sesion)):
     return {"fotos_de_alumno_borradas", "ok"}
 
 @app.delete("/alumnos/{id}")
-def borrar_usuario(id:int, sesion:Session=Depends(generador_sesion)):
+def borrar_alumno(id:int, sesion:Session=Depends(generador_sesion)):
     print("Borrando alumno por id, junto a sus tablas relacionadas")
     repo.borrar_calificaciones_por_id_alumno(sesion,id)
     repo.borrar_fotos_por_id_alumno(sesion,id)
     repo.borra_alumno_por_id(sesion,id)
-    return {"usuario_borrado", "ok"}
+    return {"alumno_borrado", "ok"}
 
 
 ######## PRACTICA 22222 #####
 
 @app.post("/alumnos")
 def guardar_alumno(alumno:esquemas.AlumnoBase,sesion:Session=Depends(generador_sesion)):
-    #guardado en la base.
+    print("Insertando alumno")
     return repo.guardar_alumno(sesion,alumno)
 
 @app.put("/alumnos/{id}")
@@ -93,4 +93,20 @@ def actualizar_alumno(id:int,info_alumno:esquemas.AlumnoBase,sesion:Session=Depe
 
 @app.post("/alumnos/{id}/calificaciones")
 def guardar_calificacion_alumno(id_alumno:int,calificacion:esquemas.CalificacionBase, sesion:Session=Depends(generador_sesion)):
+    print("Insertando calificacion de alumno")
     return repo.guardar_calificacion_alumno(sesion,id_alumno,calificacion)
+
+@app.put("/calificaciones/{id}")
+def actualizar_calificacion(id:int,info_calif:esquemas.CalificacionBase,sesion:Session=Depends(generador_sesion)):
+    print("Actualizando calificaciones de alumno")
+    return repo.actualizar_calificacion(sesion,id,info_calif)
+
+@app.post("/alumnos/{id}/fotos")
+def guardar_foto_alumno(id_alumno:int,foto:esquemas.FotoBase, sesion:Session=Depends(generador_sesion)):
+    print("Insertando foto de alumno")
+    return repo.guardar_foto_alumno(sesion,id_alumno,foto)
+
+@app.put("/fotos/{id}")
+def actualizar_foto(id_foto:int,info_calif:esquemas.FotoBase,sesion:Session=Depends(generador_sesion)):
+    print("Actualizando foto")
+    return repo.actualizar_foto(sesion,id_foto,info_calif)

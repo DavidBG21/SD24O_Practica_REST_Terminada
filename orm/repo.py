@@ -150,7 +150,6 @@ def guardar_alumno(sesion:Session, usr_nuevo:esquemas.AlumnoBase):
     sesion.refresh(usr_bd)
     return usr_bd
 
-
 # put("/alumnos/{id})
 def actualiza_alumno(sesion:Session,id_alumno:int,usr_esquema:esquemas.AlumnoBase):
     #1.-Verificar que el usuario existe
@@ -176,11 +175,11 @@ def actualiza_alumno(sesion:Session,id_alumno:int,usr_esquema:esquemas.AlumnoBas
         return respuesta
 
 # post("/alumnos/{id}/calificaciones")
-def guardar_calificacion_alumno(sesion:Session, id_alumno:int, usr_nuevo:esquemas.AlumnoBase):
+def guardar_calificacion_alumno(sesion:Session, id_alumno:int, usr_nuevo:esquemas.CalificacionBase):
     usr_bd = alumno_por_id(sesion,id_alumno)
     if usr_bd is not None:
         #1.- Crear un nuevo objeto de la clase modelo Compra
-        usr_bd = modelos.Foto()
+        usr_bd = modelos.Calificacion()
         #2.- Llenamos el nuevo objeto con los parámetros que nos paso el usuario
         usr_bd.uea = usr_nuevo.uea
         usr_bd.calificacion = usr_nuevo.calificacion
@@ -196,8 +195,61 @@ def guardar_calificacion_alumno(sesion:Session, id_alumno:int, usr_nuevo:esquema
         respuesta = {"mensaje":"No existe el alumno"}
         return respuesta
 
-
-
 # put("/calificaciones/{id}")
+def actualizar_calificacion(sesion:Session,id_calif:int,usr_esquema:esquemas.CalificacionBase):
+    #1.-Verificar que el usuario existe
+    usr_bd = calificacion_por_id(sesion,id_calif)
+    if usr_bd is not None:
+        #2.- Actualizamos los datos del usuaurio en la BD
+        usr_bd.uea = usr_esquema.uea
+        usr_bd.calificacion = usr_esquema.calificacion
+        #3.-Confirmamos los cambios
+        sesion.commit()
+        #4.-Refrescar la BD
+        sesion.refresh(usr_bd)
+        #5.-Imprimir los datos nuevos
+        print(usr_esquema)
+        return usr_esquema
+    else:
+        respuesta = {"mensaje":"No existe la calificacion"}
+        return respuesta
+
 # post("/alumnos/{id}/fotos")
+def guardar_foto_alumno(sesion:Session, id_alumno:int, usr_nuevo:esquemas.FotoBase):
+    usr_bd = alumno_por_id(sesion,id_alumno)
+    if usr_bd is not None:
+        #1.- Crear un nuevo objeto de la clase modelo Compra
+        usr_bd = modelos.Foto()
+        #2.- Llenamos el nuevo objeto con los parámetros que nos paso el usuario
+        usr_bd.titulo = usr_nuevo.titulo
+        usr_bd.descripcion = usr_nuevo.descripcion
+        usr_bd.id_alumno = id_alumno
+        #3.- Insertar el nuevo objeto a la BD
+        sesion.add(usr_bd)
+        #4.- Confirmamos el cambio
+        sesion.commit()
+        #5.- Hacemos un refresh
+        sesion.refresh(usr_bd)
+        return usr_bd
+    else:
+        respuesta = {"mensaje":"No existe el alumno"}
+        return respuesta
+
 # put("/fotos/{id}")
+def actualizar_foto(sesion:Session,id_foto:int,usr_esquema:esquemas.FotoBase):
+    #1.-Verificar que el usuario existe
+    usr_bd = foto_por_id(sesion,id_foto)
+    if usr_bd is not None:
+        #2.- Actualizamos los datos del usuaurio en la BD
+        usr_bd.titulo = usr_esquema.titulo
+        usr_bd.descripcion = usr_esquema.descripcion
+        #3.-Confirmamos los cambios
+        sesion.commit()
+        #4.-Refrescar la BD
+        sesion.refresh(usr_bd)
+        #5.-Imprimir los datos nuevos
+        print(usr_esquema)
+        return usr_esquema
+    else:
+        respuesta = {"mensaje":"No existe la foto"}
+        return respuesta
