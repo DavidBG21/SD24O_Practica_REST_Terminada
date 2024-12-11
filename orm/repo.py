@@ -1,4 +1,5 @@
 import orm.modelos as modelos
+import orm.esquemas as esquemas
 from sqlalchemy.orm import Session
 from sqlalchemy import and_
 
@@ -123,3 +124,58 @@ def borrar_calificacion_por_id(sesion:Session,id_calif:int):
         "mensaje": "calificaion eliminada"
     }
     return respuesta
+
+
+####### PRACTICA 2 CONTINUACION
+
+#Atiende las siguientes peticiones del tipo PUT y POST:
+
+#@app.post("/alumnos")
+def guardar_alumno(sesion:Session, usr_nuevo:esquemas.AlumnoBase):
+    #1.- Crear un nuevo objeto de la clase modelo Usuario
+    usr_bd = modelos.Alumno()
+    #2.- Llenamos el nuevo objeto con los parámetros que nos paso el usuario
+    usr_bd.nombre = usr_nuevo.nombre
+    usr_bd.edad = usr_nuevo.edad
+    usr_bd.domicilio = usr_nuevo.domicilio
+    usr_bd.carrera = usr_nuevo.carrera
+    usr_bd.trimestre = usr_nuevo.trimestre
+    usr_bd.email = usr_nuevo.email
+    usr_bd.password = usr_nuevo.password
+    #3.- Insertar el nuevo objeto a la BD
+    sesion.add(usr_bd)
+    #4.- Confirmamos el cambio
+    sesion.commit()
+    #5.- Hacemos un refresh
+    sesion.refresh(usr_bd)
+    return usr_bd
+
+
+# put("/alumnos/{id})
+def actualiza_alumno(sesion:Session,id_alumno:int,usr_esquema:esquemas.AlumnoBase):
+    #1.-Verificar que el usuario existe
+    usr_bd = alumno_por_id(sesion,id_alumno)
+    if usr_bd is not None:
+        #2.- Actualizamos los datos del usuaurio en la BD
+        usr_bd.nombre = usr_esquema.nombre
+        usr_bd.edad = usr_esquema.edad
+        usr_bd.domicilio = usr_esquema.domicilio
+        usr_bd.carrera = usr_esquema.carrera
+        usr_bd.trimestre = usr_esquema.trimestre
+        usr_bd.email = usr_esquema.email
+        usr_bd.password = usr_esquema.password
+        #3.-Confirmamos los cambios
+        sesion.commit()
+        #4.-Refrescar la BD
+        sesion.refresh(usr_bd)
+        #5.-Imprimir los datos nuevos
+        print(usr_esquema)
+        return usr_esquema
+    else:
+        respuesta = {"mensaje":"No existe el alumno"}
+        return respuesta
+
+# post("/alumnos/{id}/calificaciones")
+# put("/calificaciones/{id}")
+# post("/alumnos/{id}/fotos")
+# put("/fotos/{id}")

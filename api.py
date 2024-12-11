@@ -7,6 +7,7 @@ import uuid
 import orm.repo as repo #funciones para hacer consultas a la BD
 from sqlalchemy.orm import Session
 from orm.config import generador_sesion #generador de sesiones
+import orm.esquemas as esquemas
 
 # creación del servidor
 app = FastAPI()
@@ -76,3 +77,16 @@ def borrar_usuario(id:int, sesion:Session=Depends(generador_sesion)):
     repo.borrar_fotos_por_id_alumno(sesion,id)
     repo.borra_alumno_por_id(sesion,id)
     return {"usuario_borrado", "ok"}
+
+
+######## PRACTICA 22222 #####
+
+@app.post("/alumnos")
+def guardar_alumno(alumno:esquemas.AlumnoBase,sesion:Session=Depends(generador_sesion)):
+    #guardado en la base.
+    return repo.guardar_alumno(sesion,alumno)
+
+@app.put("/alumno/{id}")
+def actualizar_alumno(id:int,info_alumno:esquemas.AlumnoBase,sesion:Session=Depends(generador_sesion)):
+    print("Actualizando datos de alumno")
+    return repo.actualiza_alumno(sesion,id,info_alumno)
