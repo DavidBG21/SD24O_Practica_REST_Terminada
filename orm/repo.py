@@ -123,9 +123,3 @@ def borrar_calificacion_por_id(sesion:Session,id_calif:int):
         "mensaje": "calificaion eliminada"
     }
     return respuesta
-
-# GET '/calificaciones?id_alumno={id_alum}&calificacion={calif}'
-# select * from app.calificaciones where id_alumno=id_alum and calificacion>=calif
-#def devuelve_calificaciones_por_alumno_calificacion(sesion:Session, id_alum:int, calif:str):
-#    print("select * from app.calificaciones where id_alumno=id_alum and calificacion=calif")
-#    return sesion.query(modelos.Calificacion).filter(and_(modelos.Calificacion.id_alumno==id_alum, modelos.Calificacion.calificacion==calif)).all()

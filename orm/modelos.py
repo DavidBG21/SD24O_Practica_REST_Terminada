@@ -7,6 +7,7 @@ from sqlalchemy import Column, String, Integer, DateTime, ForeignKey, Float
 import datetime
 
 # Por convención las clases tienen nombres en singular y comienzan con mayúsculas
+# Para esta práctica se añaden o quitan elementos y propiedades
 class Alumno(BaseClass):
     __tablename__="alumnos" # Nombre de la tabla en la BD
     id=Column(Integer, primary_key=True)
