@@ -176,6 +176,28 @@ def actualiza_alumno(sesion:Session,id_alumno:int,usr_esquema:esquemas.AlumnoBas
         return respuesta
 
 # post("/alumnos/{id}/calificaciones")
+def guardar_calificacion_alumno(sesion:Session, id_alumno:int, usr_nuevo:esquemas.AlumnoBase):
+    usr_bd = alumno_por_id(sesion,id_alumno)
+    if usr_bd is not None:
+        #1.- Crear un nuevo objeto de la clase modelo Compra
+        usr_bd = modelos.Foto()
+        #2.- Llenamos el nuevo objeto con los parámetros que nos paso el usuario
+        usr_bd.uea = usr_nuevo.uea
+        usr_bd.calificacion = usr_nuevo.calificacion
+        usr_bd.id_alumno = id_alumno
+        #3.- Insertar el nuevo objeto a la BD
+        sesion.add(usr_bd)
+        #4.- Confirmamos el cambio
+        sesion.commit()
+        #5.- Hacemos un refresh
+        sesion.refresh(usr_bd)
+        return usr_bd
+    else:
+        respuesta = {"mensaje":"No existe el alumno"}
+        return respuesta
+
+
+
 # put("/calificaciones/{id}")
 # post("/alumnos/{id}/fotos")
 # put("/fotos/{id}")

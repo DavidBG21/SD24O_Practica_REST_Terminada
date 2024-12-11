@@ -86,7 +86,11 @@ def guardar_alumno(alumno:esquemas.AlumnoBase,sesion:Session=Depends(generador_s
     #guardado en la base.
     return repo.guardar_alumno(sesion,alumno)
 
-@app.put("/alumno/{id}")
+@app.put("/alumnos/{id}")
 def actualizar_alumno(id:int,info_alumno:esquemas.AlumnoBase,sesion:Session=Depends(generador_sesion)):
     print("Actualizando datos de alumno")
     return repo.actualiza_alumno(sesion,id,info_alumno)
+
+@app.post("/alumnos/{id}/calificaciones")
+def guardar_calificacion_alumno(id_alumno:int,calificacion:esquemas.CalificacionBase, sesion:Session=Depends(generador_sesion)):
+    return repo.guardar_calificacion_alumno(sesion,id_alumno,calificacion)
